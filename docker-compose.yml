@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+
+  flask:
+    build: .
+    container_name: nexus_flask
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mysql
+      - mongo
+    restart: always
+
+  mysql:
+    image: mysql:8
+    container_name: nexus_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Aravind@2004
+      MYSQL_DATABASE: inventory
+    ports:
+      - "3307:3306" 
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: always
+
+  mongo:
+    image: mongo:latest
+    container_name: nexus_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: always
+
+volumes:
+  mysql_data:
+  mongo_data:
